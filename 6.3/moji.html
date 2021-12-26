@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <link rel="canonical" href="http://tianqi.moji.com/">
+    <script src="echarts.js"></script>
+    <title>墨迹天气中文官方网站 - 让气象赋能世界！</title>
+    <script>
+        var screenWidth = screen.width;
+        if (screenWidth <= 320) {
+            var rootFontSizeNumber = '.625';
+            var rootFontSize = '.625rem';
+        } else if (screenWidth > 320 && screenWidth <= 375) {
+            var rootFontSizeNumber = '.65';
+            var rootFontSize = '.65rem';
+        } else {
+            var rootFontSizeNumber = '.7';
+            var rootFontSize = '.7rem';
+        }
+        document.write('<style>html {font-size: ' + rootFontSize + ';}</style>');
+    </script>
+</head>
+<style>
+    .index,
+    .info_box {
+        position: relative
+    }
+
+    .wind_temp,
+    .wind_temp .tabs {
+        border-bottom: 1px solid rgba(255, 255, 255, .2)
+    }
+
+    .exponent,
+    .index {
+        max-width: 640px;
+        overflow: hidden
+    }
+
+    .days,
+    .exponent,
+    .index,
+    .info_warn,
+    .news ul li a,
+    .weak_wea,
+    .wind_temp,
+    .wind_temp .charts {
+        overflow: hidden
+    }
+
+    .days .single::after,
+    .days .single::before,
+    .exponent::after,
+    .exponent::before,
+    .index::after,
+    .index::before,
+    .info_aqi ul::after,
+    .info_aqi ul::before,
+    .news h2::after,
+    .news h2::before,
+    .news ul::after,
+    .news ul::before,
+    .news::after,
+    .news::before,
+    .weak_wea::after,
+    .weak_wea::before {
+        content: "";
+        display: table
+    }
+
+    .days .single::after,
+    .exponent::after,
+    .index::after,
+    .info_aqi ul::after,
+    .news h2::after,
+    .news ul::after,
+    .news::after,
+    .weak_wea::after {
+        clear: both;
+        overflow: hidden
+    }
+
+    .index {
+        width: 100%;
+        margin: 0 auto;
+        background: #0d5aa5
+    }
+
+    .info_box {
+        min-height: 28rem;
+        background: -webkit-linear-gradient(top, #0c7ec4, #5f92c9)
+    }
+
+    .info,
+    .info_box::before {
+        position: absolute;
+        top: 0
+    }
+
+    .info_box::before {
+        right: -1px;
+        bottom: -1px;
+        left: -1px;
+        z-index: 0;
+        background: url("E:\\building_night.png") center bottom no-repeat;
+        background-size: 100% auto;
+        content: ''
+    }
+
+    .info_wea {
+        padding: 13.3rem 0 0 10px;
+        color: #fff;
+        font-size: 1.6rem
+    }
+
+    .info {
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1
+    }
+
+    .info_about {
+        position: relative;
+        z-index: 1;
+        margin: 0 140px 0 0;
+        padding: 0 0 0 10px;
+        color: #fff
+    }
+
+    .info_about em {
+        position: relative;
+        height: 9rem;
+        font-size: 9rem;
+        font-family: Arial;
+        font-style: normal;
+        line-height: 9rem
+    }
+
+    .info_about em::after {
+        position: absolute;
+        top: 1.3rem;
+        right: -1rem;
+        width: 1.2rem;
+        height: 1.2rem;
+        font-size: 3rem;
+        line-height: 1;
+        content: '°'
+    }
+
+    .info_about p {
+        font-size: 1.2rem;
+        line-height: 1.6rem
+    }
+
+    .info_aqi {
+        position: absolute;
+        right: 10px;
+        bottom: 10px
+    }
+
+    .info_aqi li {
+        float: right;
+        clear: both;
+        height: 2.1rem;
+        padding: 5px;
+        margin: 1rem 0 0;
+        border-radius: 2.1rem;
+        background: rgba(0, 0, 0, .1)
+    }
+
+    .info_aqi li span {
+        float: left
+    }
+
+    .info_aqi li strong {
+        float: left;
+        height: 2.1rem;
+        padding: 0 17px 0 4px;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 400;
+        line-height: 2.2rem
+    }
+
+    .info_warn {
+        width: 2.2rem;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        text-align: center;
+        border-radius: 1.1rem
+    }
+
+    .info_warn img {
+        width: 1.4rem;
+        display: inline-block;
+        vertical-align: middle
+    }
+
+    .days {
+        height: 5.6rem;
+        border-top: 1px solid rgba(255, 255, 255, .8)
+    }
+
+    .days .single {
+        float: left;
+        width: 50%;
+        height: 5.6rem;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        color: #fff;
+        font-size: 1.2rem
+    }
+
+    .days .single:first-child {
+        border-right: 1px solid rgba(255, 255, 255, .1)
+    }
+
+    .days .single div:first-child {
+        height: 1.6rem;
+        padding: .7rem 10px 0;
+        line-height: 1.6rem
+    }
+
+    .days .single div:last-child {
+        height: 2rem;
+        padding: .6rem 10px 0;
+        line-height: 2rem
+    }
+
+    .days .single em {
+        float: left;
+        font-style: normal
+    }
+
+    .days .single span {
+        float: left;
+        width: 3rem;
+        height: 1.6rem;
+        margin: 0 0 0 10px;
+        text-align: center;
+        border-radius: .7rem
+    }
+
+    .days .single b {
+        float: right;
+        font-weight: 400
+    }
+
+    .days .single strong {
+        float: left;
+        font-weight: 400
+    }
+
+    .days .single img {
+        float: right;
+        height: 2.2rem
+    }
+
+    .wind_temp .tabs span,
+    .wind_temp .tabs strong {
+        float: left;
+        line-height: 2.4rem;
+        font-size: 1.2rem;
+        color: #fff;
+        text-align: center
+    }
+
+    .wind_temp {
+        position: relative;
+        height: 2.4rem;
+        background: rgba(255, 255, 255, .1)
+    }
+
+    .wind_temp.show::after {
+        position: absolute;
+        right: 0;
+        bottom: 2.2rem;
+        left: 0;
+        content: '';
+        height: 0;
+        border-top: 1px solid rgba(255, 255, 255, .4)
+    }
+
+    .wind_temp .tabs {
+        height: 2.4rem
+    }
+
+    .wind_temp .tabs strong {
+        margin: 0 10px;
+        font-weight: 400
+    }
+
+    .wind_temp .tabs span {
+        display: none;
+        position: relative;
+        width: 4rem;
+        height: 2.4rem
+    }
+
+    .wind_temp .tabs .active {
+        border-bottom: 1px solid #fff
+    }
+
+    .wind_temp .tabs .btn {
+        float: right;
+        height: 1.5rem;
+        margin: .5rem 10px 0 0;
+        padding: 0 2rem 0 0;
+        color: #fff;
+        font-size: 1.2rem;
+        line-height: 1.5rem;
+        font-style: normal;
+        background: url("wind_temp_chart.png") right top no-repeat;
+        background-size: 1.5rem auto
+    }
+
+    .wind_temp .tabs .btn.active {
+        background: url("wind_temp_chart.png") right bottom no-repeat;
+        background-size: 1.5rem auto;
+        border: 0
+    }
+
+    .wind_temp .charts {
+        position: absolute;
+        height: 110px;
+        margin: 0 10px;
+        right: 0;
+        left: 0;
+        bottom: -110px
+    }
+
+    .wind_temp .charts.active {
+        top: 2.4rem
+    }
+
+    .wind_temp .charts canvas {
+        position: absolute;
+        width: 1000px;
+        height: 110px
+    }
+
+    .wind_temp .charts span {
+        position: absolute;
+        left: 0;
+        bottom: 2.4rem;
+        margin: 0 0 0 5px;
+        width: 29px;
+        height: 17px;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        line-height: 16px;
+        background: url("vernier.png") center center no-repeat;
+        background-size: 29px 17px
+    }
+
+    .weak_wea {
+        margin: 1.4rem 10px 0;
+        position: relative
+    }
+
+    .weak_wea .week_line {
+        position: absolute;
+        top: 6.8rem;
+        left: 0;
+        width: 100%;
+        height: 123px
+    }
+
+    .weak_wea ul {
+        margin: 0 -10px
+    }
+
+    .weak_wea li {
+        float: left;
+        width: 16.66%;
+        text-align: center
+    }
+
+    .weak_wea li div {
+        height: 123px
+    }
+
+    .weak_wea em {
+        display: block;
+        height: 1.4rem;
+        color: #fff;
+        font-size: 1.2rem;
+        font-style: normal;
+        line-height: 1.4rem
+    }
+
+    .weak_wea .wea {
+        padding: 0 0 4px
+    }
+
+    .weak_wea .wea dt {
+        height: 2.3rem;
+        line-height: 2.3rem
+    }
+
+    .weak_wea .wea dt img {
+        height: 100%;
+        display: inline-block;
+        vertical-align: middle
+    }
+
+    .weak_wea .wea dd {
+        margin: 0 auto;
+        width: 3.7rem;
+        height: 3.3rem;
+        line-height: 3.3rem
+    }
+
+    .weak_wea .wea dd strong {
+        display: inline-block;
+        vertical-align: middle;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 400;
+        line-height: 1.2rem
+    }
+
+    .weak_wea .aqi,
+    .weak_wea .wind dd {
+        font-size: 1.2rem;
+        line-height: 1.6rem;
+        color: #fff
+    }
+
+    .weak_wea .aqi {
+        height: 1.6rem;
+        width: 3rem;
+        display: inline-block;
+        border-radius: .8rem
+    }
+
+    .weak_wea .wind {
+        padding: 1.3rem 0 1rem
+    }
+
+    .weak_wea .wind dd {
+        font-weight: 400
+    }
+
+    .exponent {
+        width: 100%;
+        margin: 0 auto;
+        border: 1px solid rgba(255, 255, 255, .2);
+        border-width: 1px 0
+    }
+
+    .exponent ul {
+        font-size: 0;
+        margin: 0 -2px -2px 0
+    }
+
+    .exponent li {
+        width: 33%;
+        height: 10rem;
+        float: left;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, .2);
+        border-width: 0 1px 1px 0
+    }
+
+    .exponent li em,
+    .exponent li span {
+        display: inline-block;
+        width: 100%
+    }
+
+    .exponent li span {
+        height: 3rem;
+        line-height: 3rem;
+        margin: 3rem 0 0
+    }
+
+    .exponent li span img {
+        max-height: 100%;
+        display: inline-block;
+        vertical-align: middle
+    }
+
+    .news ul,
+    .news ul li a {
+        display: block;
+        width: 100%
+    }
+
+    .exponent li em {
+        height: 3rem;
+        color: #fff;
+        font-size: 1.2rem;
+        font-style: normal;
+        line-height: 1.5rem
+    }
+
+    .news h2,
+    .news ul li {
+        line-height: 2rem
+    }
+
+    .news {
+        margin: 1rem;
+        padding: 0 1rem;
+        background: rgba(255, 255, 255, .2);
+        border-radius: .5rem
+    }
+
+    .news h2 {
+        float: left;
+        padding: 1rem .2rem 0;
+        height: 2rem;
+        color: #fff;
+        font-size: 1.6rem;
+        font-weight: 400;
+        border-bottom: 1px solid #fff
+    }
+
+    .news ul {
+        padding: 1rem 0;
+        float: left
+    }
+
+    .news ul li a {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #fff;
+        text-decoration: none
+    }
+
+    .weak_wea_wnl {
+        overflow-y: scroll;
+        margin: 0 10px
+    }
+
+    .weak_wea_wnl .weak_wea {
+        width: 1000px;
+        margin: 1.4rem 0 0
+    }
+
+    .weak_wea_wnl .weak_wea .week_line {
+        top: 8.8rem;
+        width: 98%;
+        left: 1%
+    }
+
+    .weak_wea_wnl .weak_wea li {
+        width: 6.25%
+    }
+
+    .footer,
+    .footer em,
+    .header .city,
+    .search em {
+        font-style: normal
+    }
+
+    .header,
+    .header .nav_btn,
+    .search,
+    .search_page {
+        position: absolute;
+        top: 0;
+        left: 0
+    }
+
+    .footer,
+    .header,
+    .search dd,
+    .search_page dl a {
+        text-align: center
+    }
+
+    html {
+        -webkit-tap-highlight-color: transparent;
+        -moz-tap-highlight-color: transparent;
+        outline: 0;
+        font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+    }
+
+    body,
+    dd,
+    dl,
+    h2,
+    p,
+    ul {
+        margin: 0
+    }
+
+    ul {
+        list-style: none;
+        padding: 0
+    }
+
+    body {
+        overflow-x: hidden
+    }
+
+    * img {
+        border: none
+    }
+
+    .search_page dl dd::after,
+    .search_page dl dd::before,
+    .search_page dl ul::after,
+    .search_page dl ul::before,
+    .search_page dl::after,
+    .search_page dl::before {
+        content: "";
+        display: table
+    }
+
+    .header .city,
+    .header .search_btn,
+    .search em,
+    .search span {
+        display: inline-block;
+        vertical-align: middle
+    }
+
+    .search_page dl dd::after,
+    .search_page dl ul::after,
+    .search_page dl::after {
+        clear: both;
+        overflow: hidden
+    }
+
+    .header .city,
+    .search dd,
+    .search_page dl a {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap
+    }
+
+    .header {
+        right: 0;
+        z-index: 10;
+        width: 100%;
+        height: 3.6rem;
+        line-height: 3.6rem
+    }
+
+    .header .nav_btn {
+        width: 3.6rem;
+        height: 3.6rem;
+        margin: 0 0 0 1rem;
+        background: url("city_sign.png") left center no-repeat;
+        background-size: 2.1rem auto
+    }
+
+    .header .search_btn {
+        width: 1.4rem;
+        height: 1.4rem;
+        margin: 0 .3rem 0 0;
+        background: url("location.png") center center no-repeat rgba(0, 0, 0, .2);
+        background-size: .6rem .6rem;
+        border-radius: 1.4rem
+    }
+
+    .header .city {
+        height: 1.8rem;
+        max-width: 16rem;
+        margin: 0 0 0 .3rem;
+        color: #fff;
+        font-size: 1.4rem;
+        line-height: 1.8rem
+    }
+
+    .footer {
+        margin: 1.6rem 0 0;
+        height: 4.4rem;
+        color: rgba(255, 255, 255, .5);
+        font-size: 1.2rem;
+        line-height: 4.4rem;
+        background: rgba(255, 255, 255, .2)
+    }
+
+    .footer em {
+        font-weight: 700;
+        padding: 0 15px
+    }
+
+    .warn_1 {
+        background-color: #8fc31f
+    }
+
+    .warn_2 {
+        background-color: #d7af0e
+    }
+
+    .warn_3 {
+        background-color: #f39800
+    }
+
+    .warn_4 {
+        background-color: #e2361a
+    }
+
+    .warn_5 {
+        background-color: #5f52a0
+    }
+
+    .warn_6 {
+        background-color: #631541
+    }
+
+    .search {
+        right: 0;
+        z-index: 2
+    }
+
+    .search dl {
+        width: 100%
+    }
+
+    .search dt {
+        float: left;
+        width: 6.5625%;
+        height: 40px;
+        margin: 1rem 0 0 10px;
+        background: url("city_sign.png") left center no-repeat;
+        background-size: 100% auto
+    }
+
+    .search dd {
+        max-width: 80%;
+        height: 4rem;
+        padding: 1rem 0 0;
+        margin: 0 auto;
+        font-size: 1.5rem;
+        line-height: 4rem;
+        color: #fff
+    }
+
+    .search span {
+        width: 1.4rem;
+        height: 1.4rem;
+        background: url("location.png") center center no-repeat rgba(0, 0, 0, .2);
+        background-size: .6rem .6rem;
+        border-radius: 1.4rem
+    }
+
+    .search em {
+        height: 1.8rem;
+        line-height: 1.8rem
+    }
+
+    .search_page {
+        right: 0;
+        bottom: 0;
+        z-index: 30;
+        overflow-y: scroll;
+        background: #f1f0f6
+    }
+
+    .search_page .head {
+        height: 4rem;
+        margin: 1rem
+    }
+
+    .search_page .return {
+        float: left;
+        width: 2.5rem;
+        height: 4rem;
+        background: url("return.png") center center no-repeat;
+        background-size: 1.1rem 2rem
+    }
+
+    .search_page .box {
+        position: relative;
+        height: 4rem;
+        margin: 0 0 0 30px
+    }
+
+    .nav,
+    .nav_box,
+    .search_page .box em,
+    .search_page .box span {
+        position: absolute;
+        top: 0;
+        bottom: 0
+    }
+
+    .search_page .city_list,
+    .search_page dl {
+        margin: 0 10px
+    }
+
+    .search_page .box em {
+        right: 0;
+        left: 0;
+        padding: 0
+    }
+
+    .search_page .box input {
+        width: 100%;
+        height: 4rem;
+        padding: 0;
+        color: #555;
+        font-size: 1.2rem;
+        text-indent: 1rem;
+        outline: 0;
+        background: #fff;
+        border: 1px solid #e5e4e7;
+        border-radius: .5rem;
+        -webkit-appearance: none
+    }
+
+    .search_page .box span {
+        display: none;
+        right: 0;
+        width: 2.6rem;
+        background: url("close.png") left center no-repeat;
+        background-size: 1.6rem 1.6rem
+    }
+
+    .nav li a,
+    .search_page .city_list a,
+    .search_page dl a {
+        display: block;
+        text-decoration: none
+    }
+
+    .search_page .city_list li {
+        height: 3.4rem;
+        border-bottom: 1px solid #dcdbe1
+    }
+
+    .search_page .city_list a {
+        color: #555;
+        font-size: 1.2rem;
+        line-height: 3.4rem
+    }
+
+    .search_page dl dt {
+        height: 3.1rem;
+        color: rgba(85, 85, 85, .5);
+        font-size: 1.2rem
+    }
+
+    .search_page dl dt span {
+        float: right
+    }
+
+    .search_page dl dd {
+        padding: 0 0 2.8rem
+    }
+
+    .search_page dl ul {
+        font-size: 0
+    }
+
+    .search_page dl li {
+        float: left;
+        width: 30%;
+        height: 3.2rem;
+        margin: 1rem 0 0 3.5%;
+        border: 1px solid #e5e5e7;
+        border-radius: 6px;
+        background: #fff
+    }
+
+    .search_page dl li:nth-child(3n+1) {
+        margin: 1rem 0 0 .5%
+    }
+
+    .search_page dl li.active {
+        border-color: #0ca2eb
+    }
+
+    .search_page dl a {
+        padding: 0 10px;
+        color: #555;
+        line-height: 3.2rem;
+        font-size: 1.2rem
+    }
+
+    .nav div span,
+    .nav li a {
+        color: #747989;
+        font-size: 1.5rem
+    }
+
+    .nav_box {
+        right: 0;
+        left: 0;
+        z-index: 20;
+        transform: translateX(-640px);
+        -ms-transform: translateX(-640px);
+        -moz-transform: translateX(-640px);
+        -webkit-transform: translateX(-640px);
+        -o-transform: rotate(-640px)
+    }
+
+    .nav {
+        left: 0;
+        width: 80%;
+        background: #f2f4f8
+    }
+
+    .nav div,
+    .nav li {
+        width: 100%;
+        border-bottom: 1px solid #d7d7d7
+    }
+
+    .nav div,
+    .nav ul {
+        background: #fff
+    }
+
+    .nav div {
+        height: 4.4rem
+    }
+
+    .nav div img {
+        float: left;
+        margin: 1.3rem 0 0 18px
+    }
+
+    .nav div span {
+        float: right;
+        height: 3.6rem;
+        margin: .8rem 15px 0 0;
+        line-height: 3.6rem
+    }
+
+    .nav li {
+        height: 4.4rem
+    }
+
+    .nav li a {
+        padding: 0 0 0 15px;
+        line-height: 4.4rem
+    }
+
+    .nav_animate_open {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+        -webkit-animation: nav_animate_open .5s;
+        animation: nav_animate_open .5s
+    }
+
+    @-webkit-keyframes nav_animate_open {
+        0% {
+            -webkit-transform: translateX(-640px);
+            transform: translateX(-640px)
+        }
+
+        100% {
+            -webkit-transform: translateX(0);
+            transform: translateX(0)
+        }
+    }
+
+    @keyframes nav_animate_open {
+        0% {
+            -webkit-transform: translateX(-640px);
+            transform: translateX(-640px)
+        }
+
+        100% {
+            -webkit-transform: translateX(0);
+            transform: translateX(0)
+        }
+    }
+    .warn_1 {
+    background-color: #8fc31f;
+}
+.warn_3 {
+    background-color: #f39800;
+}
+.warn_4 {
+    background-color: #e2361a;
+}
+</style>
+
+<body>
+    <div class="index">
+        <div class="header">
+            <div class="nav_btn js_nav_btn" style="visibility: hidden;"></div>
+            <div class="search_btn js_search_btn"></div>
+            <div class="city">南岸区</div>
+        </div>
+        <!-- search page start -->
+        <div class="search_page js_search_page" style="display: none;">
+            <div class="head">
+                <div class="return js_return"></div>
+                <div class="box">
+                    <em><input type="text" placeholder="请输入城市名" class="js_input"></em>
+                    <span class="js_clean"></span>
+                </div>
+            </div>
+            <dl class="js_search_tips">
+                <dt>当前城市</dt>
+                <dd>
+                    <ul>
+                        <li class="active">
+                            <a>南岸区</a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl class="js_search_tips">
+                <dt>添加记录 <span class="js_delete_active">删除</span></dt>
+                <dd>
+                    <ul class="js_active_citys"></ul>
+                </dd>
+            </dl>
+            <dl class="js_search_tips">
+                <dt>热搜城市</dt>
+                <dd>
+                    <ul>
+                        <li><a data-uri="m.moji.com/api/redirect/2">北京市</a></li>
+                        <li><a data-uri="m.moji.com/api/redirect/39">上海市</a></li>
+                        <li><a data-uri="m.moji.com/api/redirect/886">广州市</a></li>
+                        <li><a data-uri="m.moji.com/api/redirect/892">深圳市</a></li>
+                        <li><a data-uri="m.moji.com/api/redirect/1185">杭州市</a></li>
+                        <li><a data-uri="m.moji.com/api/redirect/94">沈阳市</a></li>
+                        <li><a data-uri="m.moji.com/api/redirect/104">大连市</a></li>
+                    </ul>
+                </dd>
+            </dl>
+            <div class="city_list js_city_list" style="display: none;">
+                <ul></ul>
+            </div>
+        </div>
+        <!-- search page end -->
+        <!-- nav start -->
+        <div class="nav_box js_nav_box">
+            <div class="nav">
+                <div><img src="E:\\logo.png" width="75" alt="墨迹天气"><span class="js_nav_close">返回</span>
+                </div>
+                <ul>
+                    <li><a href="//m.moji.com/aqi/china/chongqing/nanan-district">aqi</a></li>
+                    <li><a href="//m.moji.com/liveview/china/chongqing/nanan-district">时景</a></li>
+                    <li><a href="//m.moji.com/forecast15/china/chongqing/nanan-district">15天预报</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- nav stop -->
+        <!-- info start -->
+        <div class="info_box">
+            <div id="head_bg" class="head_bg"></div>
+            <div class="info">
+                <div style="width:100%;height:38px;position:absolute;top:50px;line-height:38px">
+                    <a href="https://html5.moji.com/tpd/gzbd/index.html"
+                        style="float:left;margin-left:20px;background-color: #336699;width:138px;text-align:center;font-size:14px;border-radius:18px;color:#ffffff;display:inline-block;height:100%; text-decoration: none;vertical-align: middle;display: flex;justify-content: center;">
+                        <img src="E:\\2.png" style="width:26px;margin-right:8px;height:26px;margin-top:6px">
+                        疫情资讯
+                    </a>
+                    <a href="https://html5.moji.com/tpd/safetravel/safetravel.html?t=1580984067263"
+                        style="float:right;margin-right:20px;background-color: #336699;width:138px;text-align:center;font-size:14px;border-radius:18px;color:#ffffff;display:inline-block;height:100%; text-decoration: none;vertical-align: middle;display: flex;justify-content: center;">
+                        <img src="E:\\1.png" style="width:26px;margin-right:8px;height:26px;margin-top:6px">
+                        安全出行
+                    </a>
+                </div>
+                <div class="info_wea" id="info_wea" weatherId="2">阴</div>
+                <div class="info_about">
+                    <em></em>
+                    <p></p>
+                    <p>天冷了，该加衣服了！</p>
+                </div>
+                <div class="info_aqi">
+                    <ul>
+                        <li>
+                            <a href="//m.moji.com/aqi/china/chongqing/qijiang-district">
+                                <span class="info_warn warn_2">
+                                    <img src="2 (1).png" alt="aqi" />
+                                </span>
+                                <strong>52 良</strong>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- info end -->
+        <!-- days start -->
+        <div class="days">
+            <div class="single">
+                <div>
+                    <em>今天</em>
+                    <span class="warn_2">良</span> <b>5 / 10°</b>
+                </div>
+                <div>
+                    <strong>阴</strong>
+                    <img src="w2.png" alt="阴">
+                </div>
+            </div>
+            <div class="single">
+                <div>
+                    <em>明天</em>
+                    <span class="warn_2">良</span> <b>6 / 10°</b>
+                </div>
+                <div>
+                    <strong>多云</strong>
+                    <img src="w1.png" alt="多云">
+                </div>
+            </div>
+        </div>
+        <!-- days end -->
+        <!-- temp && wind charts start -->
+        <div class="wind_temp">
+            <div class="tabs">
+                <strong style="display:block;">日落 17:45</strong>
+                <span class="active">温度</span>
+                <span>风力</span>
+                <em class="btn">24小时</em>
+            </div>
+            <div class="charts active" id="temp_box">
+                <canvas id="temp" height="220" width="2000"></canvas>
+                <span id="temp_num"></span>
+            </div>
+            <div class="charts" id="wind_box">
+                <canvas id="wind" height="220" width="2000"></canvas>
+                <span id="wind_num"></span>
+            </div>
+        </div>
+        <!-- temp && wind charts end -->
+        <!-- weak weather start -->
+        <div class="weak_wea">
+            <canvas class="week_line" id="weekLine" width="710" height="246"></canvas>
+            <ul>
+                <li data-high="8" data-low="6">
+                    <em>周六</em>
+                    <dl class="wea">
+                        <dd><strong>阵雨</strong></dd>
+                        <dt><img src="w7.png" alt="" /></dt>
+                    </dl>
+                    <div></div>
+                    <dl class="wea">
+                        <dt><img src="w2.png" alt="" /></dt>
+                        <dd><strong>阴</strong></dd>
+                    </dl>
+                    <p class="aqi warn_2">良</p>
+                    <dl class="wind">
+                        <dd>西北风</dd>
+                        <dd>2级</dd>
+                    </dl>
+                </li>
+                <li data-high="10" data-low="5">
+                    <em>周日</em>
+                    <dl class="wea">
+                        <dd><strong>阴</strong></dd>
+                        <dt><img src="w2.png" alt="" /></dt>
+                    </dl>
+                    <div></div>
+                    <dl class="wea">
+                        <dt><img src="w2.png" alt="" /></dt>
+                        <dd><strong>阴</strong></dd>
+                    </dl>
+                    <p class="aqi warn_2">良</p>
+                    <dl class="wind">
+                        <dd>西北风</dd>
+                        <dd>1级</dd>
+                    </dl>
+                </li>
+                <li data-high="10" data-low="6">
+                    <em>周一</em>
+                    <dl class="wea">
+                        <dd><strong>多云</strong></dd>
+                        <dt><img src="w1.png" alt="" /></dt>
+                    </dl>
+                    <div></div>
+                    <dl class="wea">
+                        <dt><img src="w30.png" alt="" /></dt>
+                        <dd><strong>晴</strong></dd>
+                    </dl>
+                    <p class="aqi warn_2">良</p>
+                    <dl class="wind">
+                        <dd>西风</dd>
+                        <dd>2级</dd>
+                    </dl>
+                </li>
+                <li data-high="14" data-low="3">
+                    <em>周二</em>
+                    <dl class="wea">
+                        <dd><strong>多云</strong></dd>
+                        <dt><img src="w1.png" alt="" /></dt>
+                    </dl>
+                    <div></div>
+                    <dl class="wea">
+                        <dt><img src="w31.png" alt="" /></dt>
+                        <dd><strong>多云</strong></dd>
+                    </dl>
+                    <p class="aqi warn_2">良</p>
+                    <dl class="wind">
+                        <dd>东北风</dd>
+                        <dd>2级</dd>
+                    </dl>
+                </li>
+                <li data-high="14" data-low="4">
+                    <em>周三</em>
+                    <dl class="wea">
+                        <dd><strong>多云</strong></dd>
+                        <dt><img src="w1.png" alt="" /></dt>
+                    </dl>
+                    <div></div>
+                    <dl class="wea">
+                        <dt><img src="w2.png" alt="" /></dt>
+                        <dd><strong>阴</strong></dd>
+                    </dl>
+                    <p class="aqi warn_2">良</p>
+                    <dl class="wind">
+                        <dd>西北风</dd>
+                        <dd>2级</dd>
+                    </dl>
+                </li>
+                <li data-high="10" data-low="8">
+                    <em>周四</em>
+                    <dl class="wea">
+                        <dd><strong>小雨</strong></dd>
+                        <dt><img src="w7.png" alt="" /></dt>
+                    </dl>
+                    <div></div>
+                    <dl class="wea">
+                        <dt><img src="w7.png" alt="" /></dt>
+                        <dd><strong>小雨</strong></dd>
+                    </dl>
+                    <p class="aqi warn_2">良</p>
+                    <dl class="wind">
+                        <dd>西风</dd>
+                        <dd>1级</dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <!-- weak weather end -->
+        <!-- exponent start -->
+        <div class="exponent">
+            <ul>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>约会 较适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>美发 适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>舒适度 较舒适</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>路况 干燥</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="26.png">
+                    </span>
+                    <em>运动 不适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>逛街 较适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="28.png">
+                    </span>
+                    <em>钓鱼 较适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>防晒 弱</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>雨伞 不带伞</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>风寒 冷</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>猫咪 不适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>心情 较差</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="12.png">
+                    </span>
+                    <em>感冒 较易发</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>狗狗 适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>广场舞 较适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>放风筝 不宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>旅游 适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>晨练 不宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>晾晒 基本适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="17.png">
+                    </span>
+                    <em>洗车 较适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="18.png">
+                    </span>
+                    <em>空气污染扩散 中</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>空调开启 较少开启</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>息斯敏过敏 不易发</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>中暑 不易中暑</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="5.png">
+                    </span>
+                    <em>交通 良好</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>划船 较适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="7.png">
+                    </span>
+                    <em>化妆 保湿</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>啤酒 不适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="default.png">
+                    </span>
+                    <em>夜生活 较适宜</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="20.png">
+                    </span>
+                    <em>穿衣 凉</em>
+                </li>
+                <li>
+                    <span>
+                        <img src="21.png">
+                    </span>
+                    <em>紫外线 最弱</em>
+                </li>
+            </ul>
+        </div>
+        <!-- exponent end -->
+
+
+        <!-- footer start -->
+        <div class="footer">
+            本页面由<em>墨迹天气</em>提供
+        </div>
+        <!-- footer end -->
+    </div>
+<script>
+    //实时天气
+    
+    const xhr = new XMLHttpRequest()
+    //初始化一个get请求
+    xhr.open("get", "https://devapi.qweather.com/v7/weather/now?location=101044000&key=f8028828e73e46bd9e453e994f7dadad", true)
+    //接收返回值
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+            if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                let res = JSON.parse(xhr.responseText)
+                //var res = xhr.responseText
+                console.log(res);
+                console.log("now请求成功");
+                document.getElementById("info_wea").innerHTML = res.now.text;
+                document.querySelector(".info_about em").innerHTML=res.now.temp;
+                let s=res.now.windDir+res.now.windScale+"级 湿度"+res.now.humidity+"%";
+                document.querySelector(".info_about p").innerHTML=s;
+
+            } else {
+                console.log("now请求失败")
+            }
+        }
+    }
+    //发送请求
+    xhr.send()
+
+    //7天天气
+    
+    const xhr1 = new XMLHttpRequest()
+    //初始化一个get请求
+    xhr1.open("get", "https://devapi.qweather.com/v7/weather/7d?location=101044000&key=f8028828e73e46bd9e453e994f7dadad", true)
+    //接收返回值
+    xhr1.onreadystatechange = () => {
+        if (xhr1.readyState === 4) {
+            if ((xhr1.code >= 200 && xhr1.code < 300) || xhr1.code == 304) {
+                let res = JSON.parse(xhr1.responseText)
+                //var res = xhr.responseText
+                console.log(res);
+                console.log("7d请求成功");
+                
+
+            } else {
+                console.log("7d请求失败")
+            }
+        }
+    }
+    
+    //发送请求
+    xhr1.send()
+
+    //24h
+    const xhr2 = new XMLHttpRequest()
+    //初始化一个get请求
+    xhr2.open("get", "https://devapi.qweather.com/v7/weather/24h?location=101044000&key=f8028828e73e46bd9e453e994f7dadad", true)
+    //接收返回值
+    xhr2.onreadystatechange = () => {
+        if (xhr2.readyState === 4) {
+            if ((xhr2.code >= 200 && xhr2.code < 300) || xhr2.code == 304) {
+                let res = JSON.parse(xhr2.responseText)
+                //var res = xhr.responseText
+                console.log(res);
+                console.log("24h请求成功");
+
+            } else {
+                console.log("24h请求失败")
+            }
+        }
+    }
+    //发送请求
+    xhr2.send()
+
+    //实时空气质量
+    const xhr3 = new XMLHttpRequest()
+    //初始化一个get请求
+    xhr3.open("get", "https://devapi.qweather.com/v7/air/now?location=101044000&key=f8028828e73e46bd9e453e994f7dadad", true)
+    //接收返回值
+    xhr3.onreadystatechange = () => {
+        if (xhr3.readyState === 4) {
+            if ((xhr3.code >= 200 && xhr3.code < 300) || xhr3.code == 304) {
+                let res = JSON.parse(xhr3.responseText)
+                //var res = xhr.responseText
+                console.log(res);
+                console.log("airnow请求成功");
+                var aqii=res.now.aqi+" "+res.now.category;
+                document.querySelector('.info_aqi ul li strong').innerHTML=aqii;
+                var now=res.now.aqi;
+                parseInt(now);
+                
+            } else {
+                console.log("airnow请求失败")
+            }
+        }
+    }
+    //发送请求
+    xhr3.send()
+
+    const xhr4 = new XMLHttpRequest()
+    //初始化一个get请求
+    xhr4.open("get", "https://devapi.qweather.com/v7/astronomy/sun?location=101044000&date=20211226&key=f8028828e73e46bd9e453e994f7dadad", true)
+    //接收返回值
+    xhr4.onreadystatechange = () => {
+        if (xhr4.readyState === 4) {
+            if ((xhr4.code >= 200 && xhr4.code < 300) || xhr4.code == 304) {
+                let res = JSON.parse(xhr4.responseText)
+                //var res = xhr.responseText
+                console.log(res);
+                console.log("sun请求成功");
+                let sunsets=res.sunset;
+                sunsets=sunsets.substring(11,16);
+                sunsets="日落 "+sunsets;
+                document.querySelector('.tabs strong').innerHTML=sunsets;
+            } else {
+                console.log("sun请求失败")
+            }
+        }
+    }
+    //发送请求
+    xhr4.send()
+
+    const xhr5 = new XMLHttpRequest()
+    //初始化一个get请求
+    xhr5.open("get", "https://devapi.qweather.com/v7/indices/1d?type=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15&location=101044000&date=20211226&key=f8028828e73e46bd9e453e994f7dadad", true)
+    //接收返回值
+    xhr5.onreadystatechange = () => {
+        if (xhr5.readyState === 4) {
+            if ((xhr5.code >= 200 && xhr5.code < 300) || xhr5.code == 304) {
+                let res = JSON.parse(xhr5.responseText)
+                //var res = xhr.responseText
+                console.log(res);
+                console.log("请求成功");
+            } else {
+                console.log("请求失败")
+            }
+        }
+    }
+    //发送请求
+    xhr5.send()
+
+</script>
+<script type="text/javascript">
+    var a = parseFloat(rootFontSizeNumber);
+    console.log(a)
+    function o() {
+        var t = echarts.init(document.getElementById("weekLine"));
+        var i = {
+            textStyle: {
+                fontSize: 20 * a * 16 / 10
+            },
+            color: ["#ffffff"],
+            calcubale: false,
+            animation: true,
+            itemStyle: {
+                normal: {
+                    color: "rgb(255, 255, 255)"
+                }
+            },
+            xAxis: [{
+                type: "category",
+                boundaryGap: false,
+                splitLine: {
+                    show: false
+                },
+                axisLabel: {
+                    show: false
+                },
+                splitArea: {
+                    show: false
+                },
+                axisLine: {
+                    show: false
+                },
+                axisTick: {
+                    show: false
+                    
+                },
+                color: ["#ffffff"],
+                data: [0,1,2,3,4,5,6]
+            }],
+            yAxis: [{
+                splitLine: {
+                    show: false
+                },
+                scale: false,
+                allowDecimals: false,
+                splitNumber: "4",
+                //min: 0 * 1,
+                //max: 55 * 1,
+                type: "value",
+                show: false,
+                boundaryGap: false,
+                axisLabel: {/*
+                    formatter: function s(e) {
+                        return parseInt(e)
+                    },*/
+                    formatter:'{value} °C',
+                    textStyle: {
+                        color: "rgb(255, 255, 255)"
+                    }
+                },
+                splitArea: {
+                    show: false
+                },
+                axisLine: {
+                    show: false
+                },
+                axisTick: {
+                    show: false
+                },
+                color: ["#ffffff"]
+            }],
+            grid: {
+                x: 50,
+                x2: 50,
+                y: 40,
+                y2: 40,
+                borderWidth: 0
+            },
+            series: [{
+                type: "line",
+                smooth: true,
+                symbol: "circle",
+                symbolSize: 10,
+                itemStyle: {
+                    normal: {
+                        lineStyle: {
+                            color: "#fff",
+                            width: 1
+                        }
+                    }
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: "top"
+                    }
+                },
+                data: [10,8,6,8,9,9]
+            }, {
+                type: "line",
+                smooth: true,
+                symbol: "circle",
+                symbolSize: 10,
+                itemStyle: {
+                    normal: {
+                        lineStyle: {
+                            color: "#fff",
+                            width: 1
+                        }
+                    }
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: "bottom"
+                    }
+                },
+                data: [6,6,5,5,6,7]
+            }],
+            animation: false
+        };
+        t.setOption(i)
+    }
+    o();
+    var suns = document.querySelector('.wind_temp .tabs strong');
+    var btn= document.querySelector('.wind_temp .tabs .btn');
+    console.log(btn);
+    btn.addEventListener("touchend", function () {
+        btn.class="btn active";
+        suns.style.display='none';
+    })
+    var search_btn=document.querySelector('.index .header .search_btn.js_search_btn');
+    var search_page=document.querySelector('.search_page.js_search_page');
+    console.log(search_btn);
+    console.log(search_page);
+    search_btn.addEventListener('touchend', function(){
+        console.log('touchend')
+        search_page.style.display="block";
+    })
+    var returnn=document.querySelector('.search_page .return');
+    console.log(returnn);
+    returnn.addEventListener('touchend',function(){
+        console.log('touchend')
+        search_page.style.display="none";
+    })
+</script>
+</html>
