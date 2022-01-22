@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
+<script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <title>test</title>
+</head>
+
+<body>
+    <div class="text"></div>
+</body>
+<script>
+    /*
+    function Student(name) {
+        function People(name) {
+            var str = "Hi! This is " + name + "!";
+            console.log(str);
+        }
+
+        People.prototype.sleep = function (time) {
+            var startTime = new Date().getTime() + parseInt(time, 1000);
+            while (new Date().getTime() < startTime) { }
+            var times = "Wake up after " + time;
+            console.log(times);
+        }
+
+        People.prototype.sleepFirst = function (time) {
+
+        }
+        People.prototype.study = function (course) {
+            var s = "Study " + course + "~";
+            console.log(s);
+        }
+
+        return new People(name);
+    }*/
+    function Student(name) {
+  Student.cbs = []
+  Student.cbs.push(() => {
+    console.log(`Hi! This is ${name}!`)
+    Student.next()
+  })
+  setTimeout(() => {
+    Student.next()
+  }, 0)
+  return Student
+}
+
+Student.next = function () {
+  const cb = Student.cbs.shift()
+  cb && cb()
+}
+
+Student.sleep = function (time) {
+  Student.cbs.push(() => {
+    setTimeout(() => {
+      console.log(`Wake up after ${time}`)
+      Student.next()
+    }, time * 1000)
+  })
+  return Student
+}
+
+Student.sleepFirst = function (time) {
+  Student.cbs.unshift(() => {
+    setTimeout(() => {
+      console.log(`Wake up after ${time}`)
+      Student.next()
+    }, time * 1000)
+  })
+  return Student
+}
+
+Student.study = function (thing) {
+  Student.cbs.push(() => {
+    console.log(`Study ${thing}`)
+    Student.next()
+  })
+  return Student
+}
+
+    Student('fxy');
+    Student('fxy').sleep(3).study('javascript');
+    Student('fxy').study('javascript').study('Vue');
+    Student('fxy').sleepFirst(5).study('Ajax');
+</script>

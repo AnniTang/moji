@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
+<script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <title>test</title>
+</head>
+
+<body>
+    <div class="text"></div>
+</body>
+<script>
+    let str = "I'm?���going�??�to�?�take�??�a?�trip�?�to��?daocheng�?�on��May Day."
+
+    const r1 = /�+\?([a-z])/ig
+    const r2 = /[^a-z'.]+/ig
+    str = str.replace(r1, (a, g1) => {
+        return ' ' + g1.toUpperCase()
+    }).replace(r2, ' ')
+    console.log(str)
+    /*
+    for (var i = 0; i < 5; i++) {
+    setTimeout(function() {
+        console.log(new Date, i);
+    }, 1000);
+}
+console.log(new Date, i);*/
+    for (var i = 0; i < 5; i++) {
+        (function (j) {
+            setTimeout(function () {
+                console.log(new Date, j);
+            }, 1000);
+        })(i);
+    }
+    console.log(new Date, i);
+    /*var output = function(i){
+        setTimeout(function() {
+            console.log(new Date, i);
+        }, 1000);
+    }
+    for (var i = 0; i < 5; i++) {
+        output(i);//值传递传个i值过去
+    }
+    console.log(new Date, i);
+    */
+    for (var i = 0; i < 5; i++) {
+        (function (j) {
+            setTimeout(function () {
+                console.log(new Date, j);
+            }, 1000 * j); // 这里修改 0~4 的定时器时间
+        })(i);
+    }
+
+    setTimeout(function () { // 这里增加定时器，超时设置为 5 秒
+        console.log(new Date, i);
+    }, 1000 * i);
+</script>
