@@ -365,7 +365,7 @@
     .weak_wea .week_line {
         position: absolute;
         top: 6.8rem;
-        left: 0;
+        left:8%;
         width: 100%;
         height: 123px
     }
@@ -979,6 +979,35 @@
 .warn_4 {
     background-color: #e2361a;
 }
+.week_line{
+    width:100%;
+}
+.wind_temp_show .tabs span, .wind_temp .tabs strong {
+    float: left;
+    line-height: 2.4rem;
+    font-size: 1.2rem;
+    color: #fff;
+    text-align: center;
+}
+.wind_temp_show .tabs .btn.active {
+    background: url("wind_temp_chart.png") right bottom no-repeat;
+    background-size: 1.5rem auto;
+    border: 0;
+    float: right;
+    height: 1.5rem;
+    margin: .5rem 10px 0 0;
+    padding: 0 2rem 0 0;
+    color: #fff;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    font-style: normal;
+}
+.wind_temp_show .tabs .active {
+    border-bottom: 1px solid #fff;
+}
+.wind_temp, .wind_temp .tabs,.wind_temp_show {
+    border-bottom: 1px solid rgba(255,255,255,.2);
+}
 </style>
 
 <body>
@@ -1071,10 +1100,10 @@
                     <ul>
                         <li>
                             <a href="//m.moji.com/aqi/china/chongqing/qijiang-district">
-                                <span class="info_warn warn_2">
+                                <span class="info_warn warn_1">
                                     <img src="2 (1).png" alt="aqi" />
                                 </span>
-                                <strong>52 良</strong>
+                                <strong>30 优</strong>
                             </a>
                         </li>
                     </ul>
@@ -1087,7 +1116,7 @@
             <div class="single">
                 <div>
                     <em>今天</em>
-                    <span class="warn_2">良</span> <b>5 / 10°</b>
+                    <span class="warn_1">优</span> <b>8 / 12°</b>
                 </div>
                 <div>
                     <strong>阴</strong>
@@ -1097,11 +1126,11 @@
             <div class="single">
                 <div>
                     <em>明天</em>
-                    <span class="warn_2">良</span> <b>6 / 10°</b>
+                    <span class="warn_1">优</span> <b>9 / 11°</b>
                 </div>
                 <div>
-                    <strong>多云</strong>
-                    <img src="w1.png" alt="多云">
+                    <strong>小雨</strong>
+                    <img src="w7.png" alt="多云">
                 </div>
             </div>
         </div>
@@ -1109,29 +1138,53 @@
         <!-- temp && wind charts start -->
         <div class="wind_temp">
             <div class="tabs">
-                <strong style="display:block;">日落 17:45</strong>
-                <span class="active">温度</span>
-                <span>风力</span>
+                <strong style="display:block;">日落 18:23</strong>
+                <span class="wd active">温度</span>
+                <span class="fl">风力</span>
                 <em class="btn">24小时</em>
             </div>
-            <div class="charts active" id="temp_box">
-                <canvas id="temp" height="220" width="2000"></canvas>
-                <span id="temp_num"></span>
-            </div>
-            <div class="charts" id="wind_box">
-                <canvas id="wind" height="220" width="2000"></canvas>
-                <span id="wind_num"></span>
-            </div>
         </div>
-        <!-- temp && wind charts end -->
-        <!-- weak weather start -->
         <div class="weak_wea">
-            <canvas class="week_line" id="weekLine" width="710" height="246"></canvas>
+            <canvas class="week_line" id="weekLine" width="1000" height="246"></canvas>
             <ul>
                 <li data-high="8" data-low="6">
+                    <em>周五</em>
+                    <dl class="wea">
+                        <dd><strong>小雨</strong></dd>
+                        <dt><img src="w7.png" alt="" /></dt>
+                    </dl>
+                    <div></div>
+                    <dl class="wea">
+                        <dt><img src="w7.png" alt="" /></dt>
+                        <dd><strong>小雨</strong></dd>
+                    </dl>
+                    <p class="aqi warn_1">优</p>
+                    <dl class="wind">
+                        <dd>东风</dd>
+                        <dd>1级</dd>
+                    </dl>
+                </li>
+                <li data-high="10" data-low="5">
                     <em>周六</em>
                     <dl class="wea">
-                        <dd><strong>阵雨</strong></dd>
+                        <dd><strong>阴</strong></dd>
+                        <dt><img src="w2.png" alt="" /></dt>
+                    </dl>
+                    <div></div>
+                    <dl class="wea">
+                        <dt><img src="w7.png" alt="" /></dt>
+                        <dd><strong>小雨</strong></dd>
+                    </dl>
+                    <p class="aqi warn_1">优</p>
+                    <dl class="wind">
+                        <dd>北风</dd>
+                        <dd>2级</dd>
+                    </dl>
+                </li>
+                <li data-high="10" data-low="6">
+                    <em>周日</em>
+                    <dl class="wea">
+                        <dd><strong>小雨</strong></dd>
                         <dt><img src="w7.png" alt="" /></dt>
                     </dl>
                     <div></div>
@@ -1139,95 +1192,61 @@
                         <dt><img src="w2.png" alt="" /></dt>
                         <dd><strong>阴</strong></dd>
                     </dl>
-                    <p class="aqi warn_2">良</p>
+                    <p class="aqi warn_1">优</p>
                     <dl class="wind">
-                        <dd>西北风</dd>
-                        <dd>2级</dd>
-                    </dl>
-                </li>
-                <li data-high="10" data-low="5">
-                    <em>周日</em>
-                    <dl class="wea">
-                        <dd><strong>阴</strong></dd>
-                        <dt><img src="w2.png" alt="" /></dt>
-                    </dl>
-                    <div></div>
-                    <dl class="wea">
-                        <dt><img src="w2.png" alt="" /></dt>
-                        <dd><strong>阴</strong></dd>
-                    </dl>
-                    <p class="aqi warn_2">良</p>
-                    <dl class="wind">
-                        <dd>西北风</dd>
+                        <dd>西风</dd>
                         <dd>1级</dd>
                     </dl>
                 </li>
-                <li data-high="10" data-low="6">
+                <li data-high="14" data-low="3">
                     <em>周一</em>
                     <dl class="wea">
-                        <dd><strong>多云</strong></dd>
-                        <dt><img src="w1.png" alt="" /></dt>
+                        <dd><strong>小雨</strong></dd>
+                        <dt><img src="w7.png" alt="" /></dt>
                     </dl>
                     <div></div>
                     <dl class="wea">
-                        <dt><img src="w30.png" alt="" /></dt>
-                        <dd><strong>晴</strong></dd>
+                        <dt><img src="w7.png" alt="" /></dt>
+                        <dd><strong>小雨</strong></dd>
                     </dl>
-                    <p class="aqi warn_2">良</p>
+                    <p class="aqi warn_1">优</p>
                     <dl class="wind">
-                        <dd>西风</dd>
-                        <dd>2级</dd>
+                        <dd>北风</dd>
+                        <dd>1级</dd>
                     </dl>
                 </li>
-                <li data-high="14" data-low="3">
+                <li data-high="14" data-low="4">
                     <em>周二</em>
                     <dl class="wea">
-                        <dd><strong>多云</strong></dd>
-                        <dt><img src="w1.png" alt="" /></dt>
+                        <dd><strong>小雨</strong></dd>
+                        <dt><img src="w7.png" alt="" /></dt>
                     </dl>
                     <div></div>
                     <dl class="wea">
-                        <dt><img src="w31.png" alt="" /></dt>
-                        <dd><strong>多云</strong></dd>
+                        <dt><img src="w7.png" alt="" /></dt>
+                        <dd><strong>小雨</strong></dd>
                     </dl>
-                    <p class="aqi warn_2">良</p>
+                    <p class="aqi warn_1">优</p>
                     <dl class="wind">
                         <dd>东北风</dd>
                         <dd>2级</dd>
                     </dl>
                 </li>
-                <li data-high="14" data-low="4">
+                <li data-high="10" data-low="8">
                     <em>周三</em>
                     <dl class="wea">
-                        <dd><strong>多云</strong></dd>
-                        <dt><img src="w1.png" alt="" /></dt>
+                        <dd><strong>小雨</strong></dd>
+                        <dt><img src="w7.png" alt="" /></dt>
                     </dl>
                     <div></div>
                     <dl class="wea">
-                        <dt><img src="w2.png" alt="" /></dt>
-                        <dd><strong>阴</strong></dd>
+                        <dt><img src="w7.png" alt="" /></dt>
+                        <dd><strong>小雨</strong></dd>
                     </dl>
-                    <p class="aqi warn_2">良</p>
+                    <p class="aqi warn_1">优</p>
                     <dl class="wind">
-                        <dd>西北风</dd>
+                        <dd>东北风</dd>
                         <dd>2级</dd>
-                    </dl>
-                </li>
-                <li data-high="10" data-low="8">
-                    <em>周四</em>
-                    <dl class="wea">
-                        <dd><strong>小雨</strong></dd>
-                        <dt><img src="w7.png" alt="" /></dt>
-                    </dl>
-                    <div></div>
-                    <dl class="wea">
-                        <dt><img src="w7.png" alt="" /></dt>
-                        <dd><strong>小雨</strong></dd>
-                    </dl>
-                    <p class="aqi warn_2">良</p>
-                    <dl class="wind">
-                        <dd>西风</dd>
-                        <dd>1级</dd>
                     </dl>
                 </li>
             </ul>
@@ -1453,7 +1472,7 @@
                 document.querySelector(".info_about p").innerHTML=s;
 
             } else {
-                console.log("now请求失败")
+                console.log("now请求失败");
             }
         }
     }
@@ -1469,14 +1488,15 @@
     xhr1.onreadystatechange = () => {
         if (xhr1.readyState === 4) {
             if ((xhr1.code >= 200 && xhr1.code < 300) || xhr1.code == 304) {
-                let res = JSON.parse(xhr1.responseText)
+                let res1 = JSON.parse(xhr1.responseText)
                 //var res = xhr.responseText
-                console.log(res);
+                console.log(res1);
                 console.log("7d请求成功");
                 
 
             } else {
-                console.log("7d请求失败")
+                console.log("7d请求失败");
+                console.log(xhr1.responseText)
             }
         }
     }
@@ -1492,13 +1512,14 @@
     xhr2.onreadystatechange = () => {
         if (xhr2.readyState === 4) {
             if ((xhr2.code >= 200 && xhr2.code < 300) || xhr2.code == 304) {
-                let res = JSON.parse(xhr2.responseText)
+                let res2 = JSON.parse(xhr2.responseText)
                 //var res = xhr.responseText
-                console.log(res);
+                console.log(res2);
                 console.log("24h请求成功");
 
             } else {
-                console.log("24h请求失败")
+                console.log("24h请求失败");
+                console.log(xhr2.responseText);
             }
         }
     }
@@ -1513,18 +1534,24 @@
     xhr3.onreadystatechange = () => {
         if (xhr3.readyState === 4) {
             if ((xhr3.code >= 200 && xhr3.code < 300) || xhr3.code == 304) {
-                let res = JSON.parse(xhr3.responseText)
+                let res3 = JSON.parse(xhr3.responseText)
                 //var res = xhr.responseText
-                console.log(res);
+                console.log(res3);
                 console.log("airnow请求成功");
-                var aqii=res.now.aqi+" "+res.now.category;
+                var aqii=res3.now.aqi+" "+res3.now.category;
                 document.querySelector('.info_aqi ul li strong').innerHTML=aqii;
-                var now=res.now.aqi;
+                var now=res3.now.aqi;
                 parseInt(now);
                 
             } else {
-                console.log("airnow请求失败")
-            }
+                console.log("airnow请求失败");
+                console.log(xhr3.responseText);
+                let res3 = JSON.parse(xhr3.responseText)
+                var aqii=res3.now.aqi+" "+res3.now.category;
+                document.querySelector('.info_aqi ul li strong').innerHTML=aqii;
+                var now=res3.now.aqi;
+                 parseInt(now);
+            } 
         }
     }
     //发送请求
@@ -1532,21 +1559,32 @@
 
     const xhr4 = new XMLHttpRequest()
     //初始化一个get请求
-    xhr4.open("get", "https://devapi.qweather.com/v7/astronomy/sun?location=101044000&date=20211226&key=f8028828e73e46bd9e453e994f7dadad", true)
+    var d = new Date();
+    var day = d.toJSON();
+    var days = day.substring(0, 4) + day.substring(5, 7) + day.substring(8, 10);
+    console.log(days)
+    var url="https://devapi.qweather.com/v7/astronomy/sun?location=101044000&date="+days+"&key=f8028828e73e46bd9e453e994f7dadad"
+    xhr4.open("get", url, true)
     //接收返回值
     xhr4.onreadystatechange = () => {
         if (xhr4.readyState === 4) {
             if ((xhr4.code >= 200 && xhr4.code < 300) || xhr4.code == 304) {
-                let res = JSON.parse(xhr4.responseText)
+                let res4 = JSON.parse(xhr4.responseText)
                 //var res = xhr.responseText
-                console.log(res);
+                console.log(res4);
                 console.log("sun请求成功");
-                let sunsets=res.sunset;
-                sunsets=sunsets.substring(11,16);
+                let sunsets=res4.sunset;
+                sunsets=sunsets.substring(11,16 );
                 sunsets="日落 "+sunsets;
                 document.querySelector('.tabs strong').innerHTML=sunsets;
             } else {
-                console.log("sun请求失败")
+                console.log("sun请求失败");
+                console.log(xhr4.responseText);
+                let res4 = JSON.parse(xhr4.responseText)
+                let sunsets=res4.sunset;
+                sunsets=sunsets.substring(11,16 );
+                sunsets="日落 "+sunsets;
+                document.querySelector('.tabs strong').innerHTML=sunsets;
             }
         }
     }
@@ -1560,12 +1598,14 @@
     xhr5.onreadystatechange = () => {
         if (xhr5.readyState === 4) {
             if ((xhr5.code >= 200 && xhr5.code < 300) || xhr5.code == 304) {
-                let res = JSON.parse(xhr5.responseText)
+                let res5 = JSON.parse(xhr5.responseText)
                 //var res = xhr.responseText
-                console.log(res);
+                console.log(res5);
                 console.log("请求成功");
             } else {
-                console.log("请求失败")
+                let res5 = JSON.parse(xhr5.responseText)
+                console.log("请求失败");
+                console.log(xhr5.responseText);
             }
         }
     }
@@ -1645,7 +1685,7 @@
                 color: ["#ffffff"]
             }],
             grid: {
-                x: 50,
+                x: 10,
                 x2: 50,
                 y: 40,
                 y2: 40,
@@ -1670,7 +1710,7 @@
                         position: "top"
                     }
                 },
-                data: [10,8,6,8,9,9]
+                data: [11,12,11,11,10,10]
             }, {
                 type: "line",
                 smooth: true,
@@ -1690,7 +1730,7 @@
                         position: "bottom"
                     }
                 },
-                data: [6,6,5,5,6,7]
+                data: [9,8,9,9,8,8]
             }],
             animation: false
         };
@@ -1699,23 +1739,46 @@
     o();
     var suns = document.querySelector('.wind_temp .tabs strong');
     var btn= document.querySelector('.wind_temp .tabs .btn');
+    var wind_temp=document.querySelector('.wind_temp');
+    var wind_temp_show=document.querySelector('.wind_temp_show');
+    var span=document.querySelector('.wind_temp .tabs span');
     console.log(btn);
     btn.addEventListener("touchend", function () {
-        btn.class="btn active";
+        btn.className="btn active";
         suns.style.display='none';
+        wind_temp.className="wind_temp_show";
+        wind_temp.style.height=137+"px";
+        wind_temp.style.borderWidth=0+"px";
+        span.style.display="inline";
+
     })
+    /*
+    var fl=document.querySelector('.fl');
+    var wda=document.querySelector('.wind_temp .tabs span .wd active');
+    fl.addEventListener("touchend",function(){
+        fl.className="fl active";
+        wda.className="wd";
+        console.log("touchend");
+    })
+    var fla=document.querySelector('.fl active');
+    var wd=document.querySelector('.wd');
+    wda.addEventListener("touchend",function(){
+        fl.className="fl";
+        wda.className="wd active";
+        console.log("touchend");
+    })*/
     var search_btn=document.querySelector('.index .header .search_btn.js_search_btn');
     var search_page=document.querySelector('.search_page.js_search_page');
     console.log(search_btn);
     console.log(search_page);
     search_btn.addEventListener('touchend', function(){
-        console.log('touchend')
+        console.log('touchend');
         search_page.style.display="block";
     })
     var returnn=document.querySelector('.search_page .return');
     console.log(returnn);
     returnn.addEventListener('touchend',function(){
-        console.log('touchend')
+        console.log('touchend');
         search_page.style.display="none";
     })
 </script>
